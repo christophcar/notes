@@ -1,4 +1,4 @@
-// Vue child component
+const EventBus = new Vue()
 
 const inputComponent = {
   template: `<input 
@@ -15,7 +15,7 @@ const inputComponent = {
   },
   methods: {
     monitorEnterKey() {
-      this.$emit('add-note', {
+      EventBus.$emit('add-note', {
         note: this.input,
         timestamp: new Date().toLocaleString()
       })
@@ -23,8 +23,6 @@ const inputComponent = {
     }
   }
 }
-
-// Vue parent component (root instance)
 
 new Vue({
   el: '#app',
@@ -36,6 +34,12 @@ new Vue({
       notes: [],
       timestamps: [],
       placeholder: 'Enter a note'
+    }
+  },
+  methods: {
+    addNote(event) {
+      this.notes.push(event.note)
+      this.timestamps.push(event.timestamp)
     }
   }
 })
