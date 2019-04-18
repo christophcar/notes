@@ -36,6 +36,9 @@ new Vue({
       placeholder: 'Enter a note'
     }
   },
+  created() {
+    EventBus.$on('add-note', event => this.addNote(event))
+  },
   methods: {
     addNote(event) {
       this.notes.push(event.note)
