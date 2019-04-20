@@ -1,11 +1,3 @@
-// Vuex store
-const store = new Vuex.Store({
-  state,
-  mutations,
-  actions,
-  getters
-})
-
 // state
 const state = {
   notes: [],
@@ -19,8 +11,8 @@ const mutations = {
     state.notes.push(newNote)
   },
   ADD_TIMESTAMP(state, payload) {
-    let newTimestamp = payload
-    state.timestamps.push(newTimestamp)
+    let newTimeStamp = payload
+    state.timestamps.push(newTimeStamp)
   }
 }
 
@@ -41,15 +33,21 @@ const getters = {
   getNoteCount: state => state.notes.length
 }
 
-// input component
+// Vuex store
+const store = new Vuex.Store({
+  state,
+  mutations,
+  actions,
+  getters
+})
+
+// input-component
 const inputComponent = {
-  template: `<input 
-    :placeholder="placeholder"
-    v-model="input"
-    @keyup.enter="monitorEnterKey"
-    class="input is-small" 
-    type="text" />`,
-  props: ['placeholder'],
+  template: `<input
+      placeholder='Enter a note'
+      v-model="input"
+      @keyup.enter="monitorEnterKey"
+      class="input is-small" type="text" />`,
   data() {
     return {
       input: ''
@@ -64,40 +62,32 @@ const inputComponent = {
   }
 }
 
-// note-count component
+// note-count-component
 const noteCountComponent = {
-  template: `<div class="note-count">Note count: <strong>{{ noteCount }}</strong></div>`,
-  data() {
-    return {
-      noteCount: 0
+  template: `<div class="note-count">
+      Note count: <strong>{{ noteCount }}</strong>
+    </div>`,
+  computed: {
+    noteCount() {
+      return this.$store.getters.getNoteCount
     }
-  },
-  created() {
-    EventBus.$on('add-note', event => this.noteCount++)
   }
 }
 
-// parent component (root instance)
+// root instance (parent)
 new Vue({
   el: '#app',
+  store,
+  computed: {
+    notes() {
+      return this.$store.getters.getNotes
+    },
+    timestamps() {
+      return this.$store.getters.getTimestamps
+    }
+  },
   components: {
     'input-component': inputComponent,
     'note-count-component': noteCountComponent
-  },
-  data() {
-    return {
-      notes: [],
-      timestamps: [],
-      placeholder: 'Enter a note'
-    }
-  },
-  created() {
-    EventBus.$on('add-note', event => this.addNote(event))
-  },
-  methods: {
-    addNote(event) {
-      this.notes.push(event.note)
-      this.timestamps.push(event.timestamp)
-    }
   }
 })
