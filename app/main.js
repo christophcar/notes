@@ -1,3 +1,4 @@
+// Vuex store
 const store = new Vuex.Store({
   state,
   mutations,
@@ -5,11 +6,13 @@ const store = new Vuex.Store({
   getters
 })
 
+// state
 const state = {
   notes: [],
   timestamps: []
 }
 
+// mutations
 const mutations = {
   ADD_NOTE(state, payload) {
     let newNote = payload
@@ -21,6 +24,7 @@ const mutations = {
   }
 }
 
+// actions
 const actions = {
   addNote(context, payload) {
     context.commit('ADD_NOTE', payload)
@@ -30,12 +34,14 @@ const actions = {
   }
 }
 
+// getters
 const getters = {
   getNotes: state => state.notes,
   getTimestamps: state => state.timestamps,
   getNoteCount: state => state.notes.length
 }
 
+// input component
 const inputComponent = {
   template: `<input 
     :placeholder="placeholder"
@@ -58,6 +64,7 @@ const inputComponent = {
   }
 }
 
+// note-count component
 const noteCountComponent = {
   template: `<div class="note-count">Note count: <strong>{{ noteCount }}</strong></div>`,
   data() {
@@ -70,6 +77,7 @@ const noteCountComponent = {
   }
 }
 
+// parent component (root instance)
 new Vue({
   el: '#app',
   components: {
