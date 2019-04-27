@@ -9,7 +9,7 @@ const mutations = {
   ADD_NOTE(state, payload) {
     // ADD_NOTE is the type
     let newNote = payload
-    state.notes.push(newNote) // this is the handler
+    state.notes.push(newNote) // handler
   },
   ADD_TIMESTAMP(state, payload) {
     let newTimeStamp = payload
