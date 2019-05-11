@@ -1,15 +1,15 @@
-// state
+// state => like data object
 const state = {
   notes: [],
   timestamps: []
 }
 
-// mutations
+// mutations => functions that mutate store state
 const mutations = {
+  // receive payload from actions and push to notes array
   ADD_NOTE(state, payload) {
-    // ADD_NOTE is the type
     let newNote = payload
-    state.notes.push(newNote) // handler
+    state.notes.push(newNote)
   },
   ADD_TIMESTAMP(state, payload) {
     let newTimeStamp = payload
@@ -17,8 +17,9 @@ const mutations = {
   }
 }
 
-// actions
+// actions => like methods, call mutations
 const actions = {
+  // commit payload to ADD_NOTE mutation
   addNote(context, payload) {
     context.commit('ADD_NOTE', payload)
   },
@@ -27,14 +28,14 @@ const actions = {
   }
 }
 
-// getters
+// getters => like computed
 const getters = {
   getNotes: state => state.notes,
   getTimestamps: state => state.timestamps,
   getNoteCount: state => state.notes.length
 }
 
-// Vuex store
+// Vuex store => reactive container that integrates Vuex into app
 const store = new Vuex.Store({
   state,
   mutations,
@@ -55,6 +56,7 @@ const inputComponent = {
     }
   },
   methods: {
+    // dispatch to action called 'addNote' with payload this.input
     monitorEnterKey() {
       this.$store.dispatch('addNote', this.input)
       this.$store.dispatch('addTimestamp', new Date().toLocaleString())
@@ -69,6 +71,7 @@ const noteCountComponent = {
       Note count: <strong>{{ noteCount }}</strong>
     </div>`,
   computed: {
+    // display number of notes
     noteCount() {
       return this.$store.getters.getNoteCount
     }
