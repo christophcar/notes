@@ -83,6 +83,7 @@ new Vue({
   el: '#app',
   store,
   computed: {
+    // display list of notes and timestamps to view
     notes() {
       return this.$store.getters.getNotes
     },
